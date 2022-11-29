@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherApp</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+        <style>
+            body{
+              background-image: url("sky-clipart-clipart-sky-clipart-6021_3000.jpg");
+              /* background-color: rgb(33, 33, 33); */
+             
+            }
+            h1{
+              color: white;
+              font-size: xx-large;
+              font-weight: 20%;
+            }
+        </style>
+</head>
+
+<body>
+   
+    <div class=" p-3 w-75 container mt-5">
+        <h1 class="text-center ">Check for WEATHER</h1>
+
+        <input type="text" id="cityname" class="form-control mt-3" placeholder="Search for CITY">
+
+        <button onclick="search()" class="btn btn-danger mt-4"  type="button">search</button>
+    </div>
+
+ <div id="result" class="container text-center p-2 "></div>
+</body>
+
+<script> 
+
+function search(){
+    city=cityname.value
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5b4bee0ba241d092159faf007e166080`).then(d=>d.json().then(res=>displayData(res)))
+
+}
+function displayData(weather){
+    cname= weather.name
+ temperature=weather.main.temp
+//  tempr=	(temparature-32)*(5/9)
+
+ humidity=weather.main.humidity
+ weathertype=weather.wind.speed
+ sunrise=weather.sys.sunrise
+ sunset=weather.sys.sunset
+ main=weather.weather[0].main
+   
+    htmldata=``
+    htmldata=`<style>@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-image:  url("sky-clipart-clipart-sky-clipart-6021_3000.jpg");
+}
+
+.container{
+  position: absolute;
+}
+
+.container .card{
+  position: absolute;
+  margin-top:18%;
+  margin-left:40%;
+  width: 260px;
+  height: 500px;
+  background: 	#f0f8ff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.container .card:before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  clip-path: circle(150px at 80% 20%);
+  transition: 0.5s ease-in-out;
+}
+
+.container .card:hover:before{
+  clip-path: circle(300px at 80% -20%);
+}
+
+.container .card:after{
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: -20%;
+  font-size: 12em;
+  font-weight: 800;
+  font-style: italic;
+  color:  rgba(0, 0, 0, 0)
+}
+
+.container .card .imgBx{
+  position: absolute;
+  top: 5%;
+  transform: translateY(-50%);
+  z-index: 10000;
+  width: 100%;
+  height: 20px;
+  transition: 0.5s;
+}
+
+.container .card:hover .imgBx{
+  top: 0%;
+  transform: translateY(0%);
+    
+}
+
+.container .card .imgBx img{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  width: 270px;
+}
+
+.container .card .contentBx{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+  text-align: center;
+  transition: 1s;
+  z-index: 10;
+}
+
+.container .card:hover .contentBx{
+  height: 210px;
+}
+
+.container .card .contentBx h2{
+  position: relative;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: teal;
+  margin-top: 0;
+}
+
+.container .card .contentBx .size, .container .card .contentBx .color {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  transition: 0.5s;opacity: 0;
+  visibility: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.container .card:hover .contentBx .size{
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.5s;
+}
+
+.container .card:hover .contentBx .color{
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.6s;
+}
+
+.container .card .contentBx .size h3, .container .card .contentBx .color h3{
+  color: teal;
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 10px;
+}
+
+.container .card .contentBx .size span{
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  line-height: 26px;
+  font-size: 14px;
+  display: inline-block;
+  color: #5B5141;
+  background: #fff;
+  margin: 0 5px;
+  transition: 0.5s;
+  color: #111;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container .card .contentBx .size span:hover{
+  background: #9bdc28;
+}
+
+.container .card .contentBx .color span{
+  width: 20px;
+  height: 20px;
+  background: #ff0;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.container .card .contentBx .color span:nth-child(2){
+  background: #9bdc28;
+}
+
+.container .card .contentBx .color span:nth-child(3){
+  background: #03a9f4;
+}
+
+.container .card .contentBx .color span:nth-child(4){
+  background: #e91e63;
+}
+
+.container .card .contentBx a{
+  display: inline-block;
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 4px;
+  margin-top: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #5B5141;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 0.5s;
+  margin-top: 0;
+}
+
+.container .card:hover .contentBx a{
+  opacity: 1;
+  transform: translateY(0px);
+  transition-delay: 0.75s;
+  
+}
+@media(orientation:portrait){
+  .container .card{
+  position: absolute;
+  margin-top:65%;
+  margin-left:15%;
+} 
+
+</style>
+
+
+
+
+
+
+
+    <div class="container">
+  <div class="card">
+    <div class="imgBx">
+      <img src="pngegg.png">
+    </div>
+    <div class="contentBx">
+      <h2>${cname}</h2>
+      <div class="size">
+        <ul class="list-group list-group-flush ">
+    <li class="list-group-item" style="color:teal; background-color: rgba(0, 0, 0, 0); font-size:10px; font-family:strong; " >TEMP: ${temperature}</li>
+    <li class="list-group-item" style="color:teal; background-color: rgba(0, 0, 0, 0); font-size:10px; font-family:strong;" >HUMIDITY: ${humidity}</li>
+   
+    <li class="list-group-item" style="color:teal; background-color: rgba(0, 0, 0, 0); font-size:10px; font-family:strong;" >Sunrise: ${sunrise}</li>
+    <li class="list-group-item" style="color:teal; background-color: rgba(0, 0, 0, 0); font-size:10px; font-family:strong;" >sunset: ${sunset}</li>
+    <li class="list-group-item" style="color:teal; background-color: rgba(0, 0, 0, 0); font-size:10px; font-family:strong;" >${main}</li>
+
+  </ul>
+      </div>
+    </div>
+  </div>
+</div>`
+
+result.innerHTML=htmldata
+
+    
+}
+</script>
+</html>
+
+<!-- @media screen and (max-width:514){
+  .container .card{
+  position: absolute;
+  margin-top:200%;
+  margin-left:15%;}
+
+} -->
